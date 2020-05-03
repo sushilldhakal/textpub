@@ -1,12 +1,12 @@
 {
-  "name": "dontpad",
+  "name": "textpub",
   "version": "1.0.2",
-  "homepage": "https://dontpad.herokuapp.com/",
+  "homepage": "https://textpub.herokuapp.com/",
   "private": true,
-  "description": "Advanced Dontpad with format, font, image, video, url",
+  "description": "Advanced Textpub with format, font, image, video, url",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/huynhsamha/dontpad.git"
+    "url": "git+https://github.com/huynhsamha/textpub.git"
   },
   "scripts": {
     "start": "node index",
@@ -51,7 +51,7 @@
   },
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/huynhsamha/dontpad/issues"
+    "url": "https://github.com/huynhsamha/textpub/issues"
   },
   "engines": {
     "node": ">=6.10.0",
@@ -62,8 +62,8 @@
   ],
   "icon": "./public/favicon.ico",
   "keywords": [
-    "dontpad",
-    "advanced dontpad",
+    "textpub",
+    "advanced textpub",
     "docs",
     "react",
     "heroku",

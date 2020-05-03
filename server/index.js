@@ -11,17 +11,14 @@ import cors from 'cors';
 import helmet from 'helmet';
 import compression from 'compression';
 
-
 /**
  * Configures
  */
 import './config/connect-mongo';
-import './models/dontpad';
-
+import './models/textpub';
 
 const app = express();
 const server = http.Server(app);
-
 
 /**
  * Middlewares
@@ -34,25 +31,26 @@ app.use(cors());
 app.use(helmet());
 app.use(compression());
 
-
 /**
  * Render build production
  */
-app.use(express.static(path.join(__dirname, '../client/build'), {
-  // setHeaders(res, path) {
-  //   if (path.includes('lib') || path.includes('static')) {
-  //     const ONE_WEEK = 7 * 24 * 60 * 60;
-  //     res.setHeader('Cache-Control', `public, max-age=${ONE_WEEK}`);
-  //   }
-  // }
-}));
+app.use(
+  express.static(path.join(__dirname, '../client/build'), {
+    // setHeaders(res, path) {
+    //   if (path.includes('lib') || path.includes('static')) {
+    //     const ONE_WEEK = 7 * 24 * 60 * 60;
+    //     res.setHeader('Cache-Control', `public, max-age=${ONE_WEEK}`);
+    //   }
+    // }
+  })
+);
 
 /**
  * Socket.IO
  */
-import socketDontpad from './socket-io/dontpad';
+import socketTextpub from './socket-io/textpub';
 
-socketDontpad(server);
+socketTextpub(server);
 
 app.get('/*/view', (req, res, next) => res.redirect(`/${req.params[0]}`));
 
@@ -80,7 +78,6 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.send(err);
 });
-
 
 /**
  * Config port to listen

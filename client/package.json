@@ -1,12 +1,12 @@
 {
-  "name": "dontpad",
+  "name": "textpub",
   "version": "1.0.1",
-  "homepage": "https://dontpad.herokuapp.com/",
+  "homepage": "https://textpub.herokuapp.com/",
   "private": true,
-  "description": "Advanced Dontpad - Editor online without identity",
+  "description": "Advanced Textpub - Editor online without identity",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/huynhsamha/dontpad.git"
+    "url": "git+https://github.com/huynhsamha/textpub.git"
   },
   "scripts": {
     "start": "npm-run-all -p watch-css start-js",
@@ -46,7 +46,7 @@
   },
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/huynhsamha/dontpad/issues"
+    "url": "https://github.com/huynhsamha/textpub/issues"
   },
   "engines": {
     "node": ">=6.10.0",
@@ -60,8 +60,8 @@
   ],
   "icon": "./public/favicon.ico",
   "keywords": [
-    "dontpad",
-    "advanced dontpad",
+    "textpub",
+    "advanced textpub",
     "docs",
     "react",
     "heroku",
