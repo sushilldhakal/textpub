@@ -17,7 +17,6 @@ import * as actions from '../../redux/actions';
 const socket = io();
 
 class Editor extends Component {
-
   constructor(props) {
     super(props);
 
@@ -26,7 +25,8 @@ class Editor extends Component {
     this.state = {
       title: '',
       usersInRoom: 0,
-      stateModel: ''
+      stateModel: '',
+      path: '',
     };
 
     /** Flag checking if user changed file first */
@@ -38,6 +38,9 @@ class Editor extends Component {
      */
     this.timeShowTextSaving = 0;
   }
+  _onNavigate = () => {
+    this.props.history.push(this.state.path);
+  };
 
   componentWillMount() {
     this.room = window.location.pathname;
@@ -73,35 +76,22 @@ class Editor extends Component {
           this.setState({ stateModel: msg.SAVE_ALL });
         }, 500);
       }
-      // if (this.fileUsedToBeChanged) {
-      //   // this is reality that file changed by user
-      //   // not take flash show saving...
-      //   if (Date.now() - this.timeShowTextSaving > 500) {
-      //     this.setState({ stateModel: msg.SAVE_ALL });
-      //   } else {
-      //     setTimeout(() => {
-      //       this.setState({ stateModel: msg.SAVE_ALL });
-      //     }, 500);
-      //   }
-      // } else {
-      //   // toggle flag for changes
-      //   this.fileUsedToBeChanged = true;
-      // }
     });
 
     socket.on(conf.socket.server.error, () => {
       this.setState({ stateModel: msg.ERROR_CONNECT });
     });
-  }
+  };
 
   _onChangeModel = (model) => {
     this.timeShowTextSaving = Date.now();
     this.props.editModel(model);
     this.setState({ stateModel: msg.SAVING });
     socket.emit(conf.socket.client.modelChanged, {
-      model, room: this.room
+      model,
+      room: this.room,
     });
-  }
+  };
 
   _onChangeTitle = (_title) => {
     const title = String(_title).trim();
@@ -110,9 +100,10 @@ class Editor extends Component {
     this.setState({ stateModel: msg.SAVING });
     this._updateTitle(title);
     socket.emit(conf.socket.client.titleChanged, {
-      title, room: this.room
+      title,
+      room: this.room,
     });
-  }
+  };
 
   _updateTitle(title) {
     document.title = title || msg.EMPTY_DOC;
@@ -122,58 +113,64 @@ class Editor extends Component {
   _updateState = (createdAt, updatedAt) => {
     const time = updatedAt || createdAt;
     return this.setState({ stateModel: getLastTimeString(time) });
-  }
+  };
 
   _navigateToViewer = () => {
     window.previousPath = window.location.pathname;
     this.props.history.push(`${window.location.pathname}/view`);
-  }
+  };
 
   render() {
     return (
       <div className="Editor">
-
         <div className="header">
           <div className="container-fluid">
             <div className="row">
-
               <div className="col-12 col-lg-4 col-md-4">
                 <div className="header-wrapper-left">
                   <div className="wrapper-logo">
                     <a href="/">
-                      <img src="/favicon.ico" alt="favicon" width="32" height="32" />
+                      <span>
+                        <i className="fa fa-database fa-4x" />
+                      </span>
                     </a>
                   </div>
                   <div className="wrapper-input">
                     <input
-                      type="text" maxLength="40"
+                      type="text"
+                      maxLength="40"
                       placeholder={msg.EMPTY_DOC}
                       defaultValue={this.state.title}
-                      onChange={ev => this._onChangeTitle(ev.target.value)}
+                      onChange={(ev) => this._onChangeTitle(ev.target.value)}
+                      onKeyPress={(ev) => {
+                        if (ev.key === 'Enter') this._onNavigate();
+                      }}
                     />
                   </div>
                 </div>
               </div>
 
               <div className="col-12 col-lg-4 col-md-4">
-                <div className="state">
-                  {this.state.stateModel}
-                </div>
+                <div className="state">{this.state.stateModel}</div>
               </div>
 
               <div className="col-12 col-lg-4 col-md-4">
                 <div className="options">
-                  {
-                    this.state.usersInRoom > 0 ?
-                      <span className="badge">
-                        <span className="number">{this.state.usersInRoom}</span>
-                        <span className="text">other{this.state.usersInRoom > 1 ? 's' : ''} online</span>
+                  {this.state.usersInRoom > 0 ? (
+                    <span className="badge">
+                      <span className="number">{this.state.usersInRoom}</span>
+                      <span className="text">
+                        other{this.state.usersInRoom > 1 ? 's' : ''} online
                       </span>
-                      :
-                      ''
-                  }
+                    </span>
+                  ) : (
+                    ''
+                  )}
                   <button className="btn" onClick={this._navigateToViewer}>
-                    <span><i className="fa fa-html5" />View Page</span>
+                    <span>
+                      <i className="fa fa-file-code-o" />
+                      View Page
+                    </span>
                   </button>
                 </div>
               </div>
@@ -197,23 +194,22 @@ class Editor extends Component {
 Editor.propTypes = {
   model: PropTypes.string,
   editModel: PropTypes.func,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
 };
 
 Editor.defaultProps = {
   model: '',
-  editModel: () => {}
+  editModel: () => {},
 };
 
-const mapStateToProps = state => ({
-  model: state.Model
+const mapStateToProps = (state) => ({
+  model: state.Model,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   editModel: (model) => {
     dispatch(actions.editModel(model));
-  }
+  },
 });
-
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Editor));

@@ -12,19 +12,22 @@ const delay = 200; // default is 0.2 seconds
 const Home = Loadable({
   loader: () => import('./home/Home'),
   loading: Loading,
-  timeout, delay
+  timeout,
+  delay,
 });
 
 const Viewer = Loadable({
   loader: () => import('./viewer/Viewer'),
   loading: Loading,
-  timeout, delay
+  timeout,
+  delay,
 });
 
 const Editor = Loadable({
   loader: () => import('./editor/Editor'),
   loading: Loading,
-  timeout, delay
+  timeout,
+  delay,
 });
 
 class App extends Component {
@@ -34,10 +37,8 @@ class App extends Component {
         <Router>
           <div>
             <Switch>
-              {/* <Route exact path="/loading" component={Loading} /> */}
-              <Route exact path="/" component={Home} />
               <Route exact path="/*/view" component={Viewer} />
-              <Route component={Editor} />
+              <Route exactpath="/" component={Editor} />
             </Switch>
           </div>
         </Router>

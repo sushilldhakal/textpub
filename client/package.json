@@ -52,6 +52,9 @@
     "node": ">=6.10.0",
     "npm": ">=3.10.8"
   },
+  "resolutions": {
+    "**/**/node-gyp": "5.0.0"
+  },
   "contributors": [
     "huynhsamha"
   ],
