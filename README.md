@@ -39,7 +39,7 @@ Using Heroku (Host, Domain), MongoDB (mongoose), Mlab (Cloud)
 - Clone source code to your local
 
 ```bash
-git clone https://github.com/huynhsamha/textpub.git
+git clone https://github.com/sushilldhakal/textpub.git
 ```
 
 - Install npm packages
